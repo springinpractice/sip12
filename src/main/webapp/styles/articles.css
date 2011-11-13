@@ -1,0 +1,81 @@
+/* GENERAL ========================================================================================================== */
+
+h1 {
+	font-size: 200%;
+}
+
+
+/* ARTICLE LIST ===================================================================================================== */
+
+#articleList .articleItem {
+	margin-top: 20px;
+}
+
+
+/* ARTICLE ========================================================================================================== */
+
+#deck {
+	margin: 20px 0;
+	font-weight: bold;
+	font-size: 85%;	
+}
+
+.dropcap {
+    padding: 0 4px 4px 0;
+	color: #999;
+    float: left;
+    font-family: georgia, serif;
+    font-size: 80px;
+    line-height:80px;
+}
+
+.figure-label {
+	color: #832800;
+}
+
+.code-listing {
+	padding-left: 20px;
+	font-size: 85%;
+	text-transform: uppercase;
+	background: url(../skin/icons/page_code.png) no-repeat left center;
+	color: #832800;
+}
+
+.line-by-itself {
+	margin: 20px 0;
+	text-align: center;
+}
+
+
+/* PAGE NAVIGATION ================================================================================================== */
+
+.pageNavigation ul {
+	margin: 20px 0;
+}
+
+.pageNavigation li {
+	display: inline;
+	list-style-type: none;
+}
+
+.pageNavigation a {
+	margin-right: 10px;
+	padding: 0 10px;
+	background-color: #DDD;
+	font-family: lucida sans;
+	color: #537A8A;
+	text-decoration: none;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+}
+
+.pageNavigation a.currentPage {
+	background-color: #537A8A;
+	color: #FFF; 
+}
+
+.pageNavigation a.disabled {
+	background-color: #DDD;
+	color: #AAA;
+}

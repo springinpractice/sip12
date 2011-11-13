@@ -4,4 +4,50 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	version="2.5">
 
+	<context-param>
+		<param-name>appName</param-name>
+		<param-value>My Technical Articles</param-value>
+	</context-param>
+	<context-param>
+		<param-name>recipe</param-name>
+		<param-value>12.2</param-value>
+	</context-param>
+	<context-param>
+		<param-name>aboutThisRecipe</param-name>
+		<param-value><![CDATA[
+			<p>We use Spring Web MVC to put a RESTful web interface in front of our JCR content repository in recipe
+			12.2.</p>
+		]]></param-value>
+	</context-param>
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+			classpath:/spring/beans-jcr.xml
+		</param-value>
+	</context-param>
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<filter>
+		<filter-name>sitemesh</filter-name>
+		<filter-class>com.opensymphony.sitemesh.webapp.SiteMeshFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>sitemesh</filter-name>
+		<url-pattern>*.html</url-pattern>
+	</filter-mapping>
+	<servlet>
+		<servlet-name>spring</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>
+				classpath:/spring/beans-web.xml
+			</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>spring</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
 </web-app>
