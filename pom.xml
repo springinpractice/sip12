@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	
+	<modelVersion>4.0.0</modelVersion>
+	
+	<parent>
+		<groupId>com.springinpractice</groupId>
+		<artifactId>com.springinpractice.top</artifactId>
+		<version>1.0-RELEASE</version>
+	</parent>
+	
+	<artifactId>com.springinpractice.12_01</artifactId>
+	<version>1.0-RELEASE</version>
+	<packaging>war</packaging>
+	
+	<name>Spring in Practice Recipe 12.1</name>
+	<description>Recipe 12.1 shows how to store content in a content repository.</description>
+	<url>http://springinpractice.com/</url>
+	
+	<properties>
+		<chapter.number>12</chapter.number>
+		<chapter.conf.dir>${sip.conf.dir}/sip${chapter.number}</chapter.conf.dir>
+		<spring.jcr.version>1.0-SNAPSHOT</spring.jcr.version>
+	</properties>
+	
+	<dependencies>
+		<dependency>
+			<groupId>com.springinpractice</groupId>
+			<artifactId>com.springinpractice.api</artifactId>
+			<version>1.0-RELEASE</version>
+		</dependency>
+	
+		<!-- Java -->
+		<dependency>
+			<groupId>javax.inject</groupId>
+			<artifactId>com.springsource.javax.inject</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.transaction</groupId>
+			<artifactId>com.springsource.javax.transaction</artifactId>
+		</dependency>
+		
+		<!-- Spring -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>org.springframework.transaction</artifactId>
+		</dependency>
+		
+		<!-- JCR -->
+		<dependency>
+			<groupId>javax.jcr</groupId>
+			<artifactId>jcr</artifactId>
+			<version>2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.jackrabbit</groupId>
+			<artifactId>jackrabbit-core</artifactId>
+			<version>2.3.2</version>
+		</dependency>
+		
+		<!-- Spring/JCR -->
+		<dependency>
+			<groupId>org.springmodules</groupId>
+			<artifactId>org.springmodules.jcr</artifactId>
+			<version>${spring.jcr.version}</version>
+		</dependency>
+		
+		<!-- Other -->
+		<dependency>
+			<groupId>net.sourceforge.cglib</groupId>
+			<artifactId>com.springsource.net.sf.cglib</artifactId>
+		</dependency>
+	</dependencies>
+</project>

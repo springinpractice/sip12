@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jackrabbit="http://springmodules.dev.java.net/schema/jcr/jackrabbit"
+	xmlns:jcr="http://springmodules.dev.java.net/schema/jcr"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+		http://springmodules.dev.java.net/schema/jcr http://springmodules.dev.java.net/schema/jcr/springmodules-jcr.xsd
+		http://springmodules.dev.java.net/schema/jcr/jackrabbit http://springmodules.dev.java.net/schema/jcr/springmodules-jackrabbit.xsd">
+	
+	<context:property-placeholder location="classpath:/spring/environment.properties" />
+	
+	<jackrabbit:repository id="repository" homeDir="${repository.dir}" configuration="${repository.conf}" />
+	
+	<bean id="credentials" class="javax.jcr.SimpleCredentials">
+		<constructor-arg value="dummy" />
+		<constructor-arg value="dummy" />
+	</bean>
+			
+	<jcr:sessionFactory id="sessionFactory" repository="repository" credentials="credentials" />
+	
+	<context:component-scan base-package="com.springinpractice.ch12.dao.jcr" />
+	
+	<!-- Default ID is "transactionManager" -->
+	<jackrabbit:transaction-manager sessionFactory="sessionFactory" />
+	
+	<tx:annotation-driven />
+</beans>
