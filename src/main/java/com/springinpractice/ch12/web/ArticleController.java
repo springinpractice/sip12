@@ -5,8 +5,6 @@
  */
 package com.springinpractice.ch12.web;
 
-import static org.springframework.util.Assert.isTrue;
-
 import java.io.IOException;
 
 import javax.inject.Inject;
@@ -16,9 +14,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.springinpractice.ch12.dao.ArticleDao;
 import com.springinpractice.ch12.model.Article;
@@ -32,22 +31,24 @@ import com.springinpractice.ch12.model.Page;
 public class ArticleController {
 	private static final Logger log = LoggerFactory.getLogger(ArticleController.class);
 	
+	@Inject private ArticleConverter articleConverter;
 	@Inject private ArticleDao articleDao;
 	
 	/**
-	 * @param id article ID
-	 * @param article article
+	 * @param file multipart file
 	 * @return logical view name
 	 */
-	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public String importArticle(@PathVariable("id") String id, @RequestBody Article article) {
-		log.debug("Importing article: {}", id);
-		isTrue(id.equals(article.getId()));
+	@RequestMapping(value = "", method = RequestMethod.POST)
+	public String createArticle(@RequestParam("file") MultipartFile file) {
+		if (file.isEmpty()) {
+			return "redirect:/articles.html?upload=fail";
+		}
+		
+		Article article = articleConverter.convert(file);
+		log.debug("Creating article: {}", article);
+		
 		articleDao.createOrUpdate(article);
-		
-		// FIXME With the Flex client this needed an HttpServletResponse param. Does it still?
-		
-		return null;
+		return "redirect:/articles.html?upload=ok";
 	}
 	
 	/**
@@ -75,13 +76,6 @@ public class ArticleController {
 		Article article = articleDao.getPage(id, pageNumber);
 		Page page = article.getPages().get(pageNumber - 1);
 		model.addAttribute(article);
-		
-		// FIXME Temporary hack; handle this on import
-		String content = page.getContent();
-		int start = content.indexOf("<body>");
-		int end = content.indexOf("</body>");
-		page.setContent(content.substring(start + 6, end));
-		
 		model.addAttribute("articlePage", page);
 		model.addAttribute("pageNumber", pageNumber);
 		return getFullViewName("articlePage");

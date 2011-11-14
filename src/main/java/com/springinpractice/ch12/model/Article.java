@@ -9,9 +9,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
 /**
  * @author Willie Wheeler (willie.wheeler@gmail.com)
  */
+@XmlRootElement(name = "article")
 public class Article {
 	private String id;
 	private String title;
@@ -24,6 +29,7 @@ public class Article {
 	/**
 	 * @return id
 	 */
+	@XmlAttribute
 	public String getId() { return id; }
 	
 	/**
@@ -87,6 +93,7 @@ public class Article {
 	/**
 	 * @return pages
 	 */
+	@XmlTransient
 	public List<Page> getPages() { return pages; }
 	
 	/**
