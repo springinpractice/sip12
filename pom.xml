@@ -72,6 +72,13 @@
 			<groupId>org.apache.jackrabbit</groupId>
 			<artifactId>jackrabbit-core</artifactId>
 			<version>2.3.2</version>
+			<exclusions>
+				<!-- See below -->
+				<exclusion>
+					<artifactId>commons-io</artifactId>
+					<groupId>commons-io</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		
 		<!-- Spring/JCR -->
@@ -90,6 +97,14 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>com.springsource.org.apache.commons.fileupload</artifactId>
 		</dependency>
+		
+		<!-- Declare Commons IO here since File Upload needs it too, and we're going to get rid of Jackrabbit in 
+		     recipe 12.3. -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>com.springsource.org.apache.commons.io</artifactId>
+		</dependency>
+		
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>org.springframework.oxm</artifactId>
