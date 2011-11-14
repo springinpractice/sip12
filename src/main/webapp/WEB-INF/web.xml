@@ -10,19 +10,18 @@
 	</context-param>
 	<context-param>
 		<param-name>recipe</param-name>
-		<param-value>12.2</param-value>
+		<param-value>12.3</param-value>
 	</context-param>
 	<context-param>
 		<param-name>aboutThisRecipe</param-name>
 		<param-value><![CDATA[
-			<p>We use Spring Web MVC to put a RESTful web interface in front of our JCR content repository in recipe
-			12.2.</p>
+			<p>Recipe 12.3 replaces our JCR content repository with a MongoDB document repository.</p>
 		]]></param-value>
 	</context-param>
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
-			classpath:/spring/beans-jcr.xml
+			classpath:/spring/beans-mongodb.xml
 		</param-value>
 	</context-param>
 	<listener>

@@ -47,7 +47,7 @@ public class ArticleController {
 		Article article = articleConverter.convert(file);
 		log.debug("Creating article: {}", article);
 		
-		articleDao.createOrUpdate(article);
+		articleDao.save(article);
 		return "redirect:/articles.html?upload=ok";
 	}
 	
@@ -58,7 +58,7 @@ public class ArticleController {
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public String getArticleList(Model model) {
 		log.debug("Getting article list");
-		model.addAttribute(articleDao.getAll());
+		model.addAttribute(articleDao.findAll());
 		return getFullViewName("articleList");
 	}
 	
@@ -73,7 +73,7 @@ public class ArticleController {
 	@RequestMapping(value = "/{id}/{page}", method = RequestMethod.GET)
 	public String getArticlePage(@PathVariable String id, @PathVariable("page") Integer pageNumber, Model model) {
 		log.debug("Serving {}, page {}", id, pageNumber);
-		Article article = articleDao.getPage(id, pageNumber);
+		Article article = articleDao.findOne(id);
 		Page page = article.getPages().get(pageNumber - 1);
 		model.addAttribute(article);
 		model.addAttribute("articlePage", page);

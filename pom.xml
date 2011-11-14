@@ -11,28 +11,22 @@
 		<version>1.0-RELEASE</version>
 	</parent>
 	
-	<artifactId>com.springinpractice.12_02</artifactId>
+	<artifactId>com.springinpractice.12_03</artifactId>
 	<version>1.0-RELEASE</version>
 	<packaging>war</packaging>
 	
-	<name>Spring in Practice Recipe 12.2</name>
+	<name>Spring in Practice Recipe 12.3</name>
 	<description>
-		We use Spring Web MVC to put a RESTful web interface in front of our JCR content repository in recipe 12.2.
+		Recipe 12.3 replaces our JCR content repository with a MongoDB document repository.
 	</description>
 	<url>http://springinpractice.com/</url>
 	
 	<properties>
 		<chapter.number>12</chapter.number>
 		<chapter.conf.dir>${sip.conf.dir}/sip${chapter.number}</chapter.conf.dir>
-		<spring.jcr.version>1.0-SNAPSHOT</spring.jcr.version>
 	</properties>
 	
 	<dependencies>
-		<dependency>
-			<groupId>com.springinpractice</groupId>
-			<artifactId>com.springinpractice.api</artifactId>
-			<version>1.0-RELEASE</version>
-		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>com.springinpractice.deps-web</artifactId>
@@ -51,44 +45,21 @@
 			<groupId>javax.inject</groupId>
 			<artifactId>com.springsource.javax.inject</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>javax.transaction</groupId>
-			<artifactId>com.springsource.javax.transaction</artifactId>
-		</dependency>
 		
 		<!-- Spring -->
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>org.springframework.transaction</artifactId>
-		</dependency>
-		
-		<!-- JCR -->
-		<dependency>
-			<groupId>javax.jcr</groupId>
-			<artifactId>jcr</artifactId>
-			<version>2.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.jackrabbit</groupId>
-			<artifactId>jackrabbit-core</artifactId>
-			<version>2.3.2</version>
-		</dependency>
-		
-		<!-- Spring/JCR -->
-		<dependency>
-			<groupId>org.springmodules</groupId>
-			<artifactId>org.springmodules.jcr</artifactId>
-			<version>${spring.jcr.version}</version>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-mongodb</artifactId>
 		</dependency>
 		
 		<!-- Other -->
 		<dependency>
-			<groupId>net.sourceforge.cglib</groupId>
-			<artifactId>com.springsource.net.sf.cglib</artifactId>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>com.springsource.org.apache.commons.fileupload</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
-			<artifactId>com.springsource.org.apache.commons.fileupload</artifactId>
+			<artifactId>com.springsource.org.apache.commons.io</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
