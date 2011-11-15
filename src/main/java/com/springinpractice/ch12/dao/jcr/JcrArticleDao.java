@@ -7,6 +7,7 @@ package com.springinpractice.ch12.dao.jcr;
 
 import static org.springframework.util.Assert.notNull;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,12 +19,11 @@ import javax.jcr.PathNotFoundException;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.springmodules.jcr.JcrCallback;
 import org.springmodules.jcr.SessionFactory;
 import org.springmodules.jcr.support.JcrDaoSupport;
 
@@ -32,24 +32,20 @@ import com.springinpractice.ch12.model.Article;
 import com.springinpractice.ch12.model.Page;
 
 /**
- * <p>
- * Article data access object.
- * </p>
- * <p>
- * This class assumes that article IDs are globally unique. This might make it unsuitable for certain applications.
- * </p>
+ * JCR-backed article data access object.
  * 
- * @version $Id$
  * @author Willie Wheeler (willie.wheeler@gmail.com)
  */
 @Repository
 @Transactional(readOnly = true)
 public class JcrArticleDao extends JcrDaoSupport implements ArticleDao {
-	private static final Logger log = LoggerFactory.getLogger(JcrArticleDao.class);
-	
 	@Inject private ArticleMapper articleMapper;
 	
+	/* (non-Javadoc)
+	 * @see org.springmodules.jcr.support.JcrDaoSupport#setSessionFactory(org.springmodules.jcr.SessionFactory)
+	 */
 	@Inject
+	@Override
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		super.setSessionFactory(sessionFactory);
 	}
@@ -59,11 +55,20 @@ public class JcrArticleDao extends JcrDaoSupport implements ArticleDao {
 	 */
 	@Override
 	@Transactional(readOnly = false)
-	public void createOrUpdate(Article article) {
+	public void createOrUpdate(final Article article) {
 		notNull(article);
-		log.debug("Creating or updating article: {}", article);
-		if (exists(article.getId())) { delete(article); }
-		create(article);
+		getTemplate().execute(new JcrCallback() {
+
+			/* (non-Javadoc)
+			 * @see org.springmodules.jcr.JcrCallback#doInJcr(javax.jcr.Session)
+			 */
+			@Override
+			public Object doInJcr(Session session) throws IOException, RepositoryException {
+				if (exists(article.getId())) { delete(article); }
+				create(article);
+				return null;
+			}
+		}, true);
 	}
 	
 	/* (non-Javadoc)
@@ -71,36 +76,44 @@ public class JcrArticleDao extends JcrDaoSupport implements ArticleDao {
 	 */
 	@Override
 	@Transactional(readOnly = false)
-	public void create(Article article) {
+	public void create(final Article article) {
 		notNull(article);
-		String articleId = article.getId();
-		if (exists(articleId)) {
-			throw new DataIntegrityViolationException("Article already exists");
-		}
-		try {
-			articleMapper.addArticleNode(article, getArticlesNode());
-			getSession().save();
-		} catch (RepositoryException e) {
-			throw convertJcrAccessException(e);
-		}
+		getTemplate().execute(new JcrCallback() {
+
+			/* (non-Javadoc)
+			 * @see org.springmodules.jcr.JcrCallback#doInJcr(javax.jcr.Session)
+			 */
+			@Override
+			public Object doInJcr(Session session) throws IOException, RepositoryException {
+				if (exists(article.getId())) {
+					throw new DataIntegrityViolationException("Article already exists");
+				}
+				articleMapper.addArticleNode(article, getArticlesNode(session));
+				session.save();
+				return null;
+			}
+		}, true);
 	}
 	
 	/* (non-Javadoc)
 	 * @see com.springinpractice.dao.Dao#getAll()
 	 */
 	@Override
+	@SuppressWarnings("unchecked")
 	public List<Article> getAll() {
-		try {
-			Node articlesNode = getArticlesNode();
-			NodeIterator it = articlesNode.getNodes();
-			List<Article> articles = new ArrayList<Article>();
-			while (it.hasNext()) {
-				articles.add(articleMapper.toArticle(it.nextNode()));
+		return (List<Article>) getTemplate().execute(new JcrCallback() {
+
+			/* (non-Javadoc)
+			 * @see org.springmodules.jcr.JcrCallback#doInJcr(javax.jcr.Session)
+			 */
+			@Override
+			public Object doInJcr(Session session) throws IOException, RepositoryException {
+				NodeIterator it = getArticlesNode(session).getNodes();
+				List<Article> articles = new ArrayList<Article>();
+				while (it.hasNext()) { articles.add(articleMapper.toArticle(it.nextNode())); }
+				return articles;
 			}
-			return articles;
-		} catch (RepositoryException e) {
-			throw convertJcrAccessException(e);
-		}
+		}, true);
 	}
 	
 	/* (non-Javadoc)
@@ -123,40 +136,42 @@ public class JcrArticleDao extends JcrDaoSupport implements ArticleDao {
 	 * @see com.springinpractice.ch12.dao.ArticleDao#getPage(java.lang.String, int)
 	 */
 	@Override
-	public Article getPage(String articleId, int pageNumber) {
+	public Article getPage(final String articleId, final int pageNumber) {
 		notNull(articleId);
-		try {
-			Node articlesNode = getArticlesNode();
-			Node articleNode = articlesNode.getNode(articleId);
-			
-			if (articleNode == null) {
-				throw new DataRetrievalFailureException("No such article: " + articleId);
-			}
-			
-			Node pagesNode = articleNode.getNode("pages");
-			
-			Article article = articleMapper.toArticle(articleNode);
-			List<Page> pages = new ArrayList<Page>();
-			NodeIterator pagesIt = pagesNode.getNodes();
-			int count = 1;
-			while (pagesIt.hasNext()) {
-				Node pageNode = pagesIt.nextNode();
+		return (Article) getTemplate().execute(new JcrCallback() {
+
+			/* (non-Javadoc)
+			 * @see org.springmodules.jcr.JcrCallback#doInJcr(javax.jcr.Session)
+			 */
+			@Override
+			public Object doInJcr(Session session) throws IOException, RepositoryException {
+				Node articlesNode = getArticlesNode(session);
+				Node articleNode = articlesNode.getNode(articleId);
 				
-				Page page = new Page();
-				if (count == pageNumber) {
-					Node contentNode = pageNode.getNode(Node.JCR_CONTENT);
-					page.setContent(contentNode.getProperty("jcr:data").getString());
+				if (articleNode == null) {
+					throw new DataRetrievalFailureException("No such article: " + articleId);
 				}
-				pages.add(page);
 				
-				count++;
+				Node pagesNode = articleNode.getNode("pages");
+				
+				Article article = articleMapper.toArticle(articleNode);
+				List<Page> pages = new ArrayList<Page>();
+				NodeIterator pagesIt = pagesNode.getNodes();
+				int count = 1;
+				while (pagesIt.hasNext()) {
+					Node pageNode = pagesIt.nextNode();
+					Page page = new Page();
+					if (count == pageNumber) {
+						Node contentNode = pageNode.getNode(Node.JCR_CONTENT);
+						page.setContent(contentNode.getProperty("jcr:data").getString());
+					}
+					pages.add(page);
+					count++;
+				}
+				article.setPages(pages);
+				return article;
 			}
-			article.setPages(pages);
-			
-			return article;
-		} catch (RepositoryException e) {
-			throw convertJcrAccessException(e);
-		}
+		}, true);
 	}
 	
 	/* (non-Javadoc)
@@ -173,24 +188,27 @@ public class JcrArticleDao extends JcrDaoSupport implements ArticleDao {
 	 */
 	@Override
 	@Transactional(readOnly = false)
-	public void delete(Article article) {
-		deleteById(article.getId());
-	}
+	public void delete(Article article) { deleteById(article.getId()); }
 
 	/* (non-Javadoc)
 	 * @see com.springinpractice.dao.Dao#deleteById(java.io.Serializable)
 	 */
 	@Override
 	@Transactional(readOnly = false)
-	public void deleteById(Serializable id) {
+	public void deleteById(final Serializable id) {
 		notNull(id);
-		String articleId = (String) id;
-		try {
-			getArticlesNode().getNode(articleId).remove();
-			getSession().save();
-		} catch (RepositoryException e) {
-			throw convertJcrAccessException(e);
-		}
+		getTemplate().execute(new JcrCallback() {
+
+			/* (non-Javadoc)
+			 * @see org.springmodules.jcr.JcrCallback#doInJcr(javax.jcr.Session)
+			 */
+			@Override
+			public Object doInJcr(Session session) throws IOException, RepositoryException {
+				getArticlesNode(session).getNode((String) id).remove();
+				session.save();
+				return null;
+			}
+		}, true);
 	}
 
 	/* (non-Javadoc)
@@ -216,12 +234,7 @@ public class JcrArticleDao extends JcrDaoSupport implements ArticleDao {
 	@Override
 	public boolean exists(Serializable id) {
 		notNull(id);
-		String articleId = (String) id;
-		try {
-			return getSession().nodeExists(getArticlePath(articleId));
-		} catch (RepositoryException e) {
-			throw convertJcrAccessException(e);
-		}
+		return getTemplate().itemExists(getArticlePath((String) id));
 	}
 	
 	
@@ -241,8 +254,7 @@ public class JcrArticleDao extends JcrDaoSupport implements ArticleDao {
 		return getArticlesPath() + "/" + articleId;
 	}
 	
-	private Node getArticlesNode() throws RepositoryException {
-		Session session = getSession();
+	private Node getArticlesNode(Session session) throws RepositoryException {
 		try {
 			return session.getNode(getArticlesPath());
 		} catch (PathNotFoundException e) {
