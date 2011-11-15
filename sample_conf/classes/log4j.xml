@@ -11,7 +11,7 @@
 	<logger name="com.springinpractice">
 		<level value="debug" />
 	</logger>
-	<logger name="com.williewheeler.springjcr">
+	<logger name="org.springmodules.jcr">
 		<level value="debug" />
 	</logger>
 	<root> 
