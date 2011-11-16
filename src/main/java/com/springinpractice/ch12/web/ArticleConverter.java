@@ -83,7 +83,7 @@ public class ArticleConverter implements Converter<MultipartFile, Article>, Serv
 	}
 	
 	private void unzip(MultipartFile zipFile, File destDir) throws IOException {
-		byte[] buffer = new byte[4096];
+		byte[] buffer = new byte[BUFFER_SIZE];
 		
 		ZipInputStream zis = new ZipInputStream(new ByteArrayInputStream(zipFile.getBytes()));
 		ZipEntry entry;
