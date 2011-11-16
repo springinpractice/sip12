@@ -152,9 +152,10 @@ public class JcrArticleDao extends JcrDaoSupport implements ArticleDao {
 					throw new DataRetrievalFailureException("No such article: " + articleId);
 				}
 				
-				Node pagesNode = articleNode.getNode("pages");
-				
 				Article article = articleMapper.toArticle(articleNode);
+				
+				// FIXME Move this mapping code into ArticleMapper
+				Node pagesNode = articleNode.getNode("pages");
 				List<Page> pages = new ArrayList<Page>();
 				NodeIterator pagesIt = pagesNode.getNodes();
 				int count = 1;

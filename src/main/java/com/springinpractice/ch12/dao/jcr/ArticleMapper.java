@@ -98,6 +98,7 @@ public class ArticleMapper {
 	 * @param pageNumber page number
 	 * @throws RepositoryException if there's a repository exception
 	 */
+	// FIXME Make the parameter order consistent with addArticleNode().
 	private void addPageNode(Node pagesNode, Page page, int pageNumber) throws RepositoryException {
 		Node pageNode = pagesNode.addNode(String.valueOf(pageNumber), "nt:file");
 		Node contentNode = pageNode.addNode(Node.JCR_CONTENT, "nt:resource");
