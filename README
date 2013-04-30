@@ -1,5 +1,5 @@
 ========================================================================================================================
-README - Spring in Practice Recipe 12.2
+README - Spring in Practice Recipe 12.3
 
 Copyright (c) 2013 Manning Publications Co.
 
@@ -11,4 +11,10 @@ Book   : http://manning.com/wheeler/
 Forum  : http://www.manning-sandbox.com/forum.jspa?forumID=503
 ========================================================================================================================
 
-This recipe adds a web tier to the JCR-backed DAO from recipe 12.1.
+Recipe 12.3 replaces the JCR backend with a MongoDB backend, using Spring Data MongoDB as an interface.
+
+Before running this app, you will need to install MongoDB and start it up. On the Mac it's
+
+  $ sudo mongod
+
+For other platforms please consult the MongoDB documentation.
