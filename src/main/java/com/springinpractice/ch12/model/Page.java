@@ -1,7 +1,10 @@
 /* 
- * Book web site   - http://www.manning.com/wheeler/
- * Book blog       - http://springinpractice.com/
- * Author web site - http://wheelersoftware.com/
+ * Copyright (c) 2013 Manning Publications Co.
+ * 
+ * Blog   : http://springinpractice.com/
+ * GitHub : https://github.com/organizations/springinpractice
+ * Book   : http://manning.com/wheeler/
+ * Forum  : http://www.manning-sandbox.com/forum.jspa?forumID=503
  */
 package com.springinpractice.ch12.model;
 
@@ -11,14 +14,7 @@ package com.springinpractice.ch12.model;
 public class Page {
 	private String content;
 	
-	/**
-	 * @return content
-	 */
 	public String getContent() { return content; }
 
-	/**
-	 * @param content
-	 *            content
-	 */
 	public void setContent(String content) { this.content = content; }
 }
