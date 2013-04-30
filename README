@@ -1,5 +1,5 @@
 ========================================================================================================================
-README - Spring in Practice Recipe 12.1
+README - Spring in Practice Recipe 12.2
 
 Copyright (c) 2013 Manning Publications Co.
 
@@ -11,6 +11,4 @@ Book   : http://manning.com/wheeler/
 Forum  : http://www.manning-sandbox.com/forum.jspa?forumID=503
 ========================================================================================================================
 
-This recipe shows how to implement DAOs backed by the Java Content Repository.
-
-There's nothing executable here. The next recipe features a simple web app that uses this repository.
+This recipe adds a web tier to the JCR-backed DAO from recipe 12.1.
