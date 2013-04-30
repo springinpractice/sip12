@@ -2,5 +2,5 @@
 /.project
 /target
 /.classpath
-/derby.log
 /.springBeans
+/derby.log
