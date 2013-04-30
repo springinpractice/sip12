@@ -106,13 +106,20 @@ public class Article {
 	 */
 	@Override
 	public String toString() {
-		return "[Article: id=" + id
-			+ ", title=" + title
-			+ ", author=" + author
-			+ ", publishDate=" + publishDate
-			+ ", description=" + description
-			+ ", keywords=" + keywords
-			+ ", numPages=" + (pages == null ? 0 : pages.size())
-			+ "]";
+		StringBuilder builder = new StringBuilder();
+		builder.append("[Article: id=");
+		builder.append(id);
+		builder.append(", author=");
+		builder.append(author);
+		builder.append(", publishDate=");
+		builder.append(publishDate);
+		builder.append(", description=");
+		builder.append(description);
+		builder.append(", keywords=");
+		builder.append(keywords);
+		builder.append(", numPages=");
+		builder.append(pages == null ? 0 : pages.size());
+		builder.append("]");
+		return builder.toString();
 	}
 }
