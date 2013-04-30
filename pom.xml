@@ -1,4 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+========================================================================================================================
+pom.xml
+
+Copyright (c) 2013 Manning Publications Co.
+
+Willie Wheeler (willie.wheeler@gmail.com)
+
+Blog   : http://springinpractice.com/
+GitHub : https://github.com/organizations/springinpractice
+Book   : http://manning.com/wheeler/
+Forum  : http://www.manning-sandbox.com/forum.jspa?forumID=503
+========================================================================================================================
+-->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -12,7 +27,6 @@
 	</parent>
 	
 	<artifactId>com.springinpractice.12_01</artifactId>
-	<version>1.0-RELEASE</version>
 	<packaging>war</packaging>
 	
 	<name>Spring in Practice Recipe 12.1</name>
@@ -39,7 +53,7 @@
 		</dependency>
 		<dependency>
 			<groupId>javax.transaction</groupId>
-			<artifactId>com.springsource.javax.transaction</artifactId>
+			<artifactId>jta</artifactId>
 		</dependency>
 		
 		<!-- Spring -->
@@ -69,8 +83,8 @@
 		
 		<!-- Other -->
 		<dependency>
-			<groupId>net.sourceforge.cglib</groupId>
-			<artifactId>com.springsource.net.sf.cglib</artifactId>
+			<groupId>cglib</groupId>
+			<artifactId>cglib-nodep</artifactId>
 		</dependency>
 	</dependencies>
 </project>

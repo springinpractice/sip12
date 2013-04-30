@@ -1,7 +1,10 @@
 /* 
- * Book web site   - http://www.manning.com/wheeler/
- * Book blog       - http://springinpractice.com/
- * Author web site - http://wheelersoftware.com/
+ * Copyright (c) 2013 Manning Publications Co.
+ * 
+ * Blog   : http://springinpractice.com/
+ * GitHub : https://github.com/organizations/springinpractice
+ * Book   : http://manning.com/wheeler/
+ * Forum  : http://www.manning-sandbox.com/forum.jspa?forumID=503
  */
 package com.springinpractice.ch12.model;
 
@@ -21,82 +24,34 @@ public class Article {
 	private String keywords;
 	private List<Page> pages = new ArrayList<Page>();
 	
-	/**
-	 * @return id
-	 */
 	public String getId() { return id; }
 	
-	/**
-	 * @param id id
-	 */
 	public void setId(String id) { this.id = id; }
 	
-	/**
-	 * @return the title
-	 */
 	public String getTitle() { return title; }
 
-	/**
-	 * @param title
-	 *            the title to set
-	 */
 	public void setTitle(String title) { this.title = title; }
 
-	/**
-	 * @return the author
-	 */
 	public String getAuthor() { return author; }
 
-	/**
-	 * @param author
-	 *            the author to set
-	 */
 	public void setAuthor(String author) { this.author = author; }
 
-	/**
-	 * @return the publishDate
-	 */
 	public Date getPublishDate() { return publishDate; }
 
-	/**
-	 * @param publishDate
-	 *            the publishDate to set
-	 */
 	public void setPublishDate(Date publishDate) { this.publishDate = publishDate; }
 	
-	/**
-	 * @return description
-	 */
 	public String getDescription() { return description; }
 	
-	/**
-	 * @param description description
-	 */
 	public void setDescription(String description) { this.description = description; }
 	
-	/**
-	 * @return keywords
-	 */
 	public String getKeywords() { return keywords; }
 	
-	/**
-	 * @param keywords keywords
-	 */
 	public void setKeywords(String keywords) { this.keywords = keywords; }
 	
-	/**
-	 * @return pages
-	 */
 	public List<Page> getPages() { return pages; }
 	
-	/**
-	 * @param pages pages
-	 */
 	public void setPages(List<Page> pages) { this.pages = pages; }
 	
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 		return "[Article: id=" + id
