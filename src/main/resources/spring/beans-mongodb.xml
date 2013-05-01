@@ -8,10 +8,9 @@ Copyright (c) 2013 Manning Publications Co.
 
 Willie Wheeler (willie.wheeler@gmail.com)
 
-Blog   : http://springinpractice.com/
-GitHub : https://github.com/organizations/springinpractice
-Book   : http://manning.com/wheeler/
-Forum  : http://www.manning-sandbox.com/forum.jspa?forumID=503
+Book: http://manning.com/wheeler/
+Blog: http://springinpractice.com/
+Code: https://github.com/springinpractice
 ========================================================================================================================
 -->
 <beans xmlns="http://www.springframework.org/schema/beans"
@@ -25,7 +24,7 @@ Forum  : http://www.manning-sandbox.com/forum.jspa?forumID=503
 		http://www.springframework.org/schema/context
 		http://www.springframework.org/schema/context/spring-context-3.1.xsd
 		http://www.springframework.org/schema/data/mongo
-		http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd">
+		http://www.springframework.org/schema/data/mongo/spring-mongo-1.1.xsd">	
 	
 	<!-- Simple configuration -->
 	<!-- Defines the Mongo instance using defaults host="localhost", port="27017" -->
